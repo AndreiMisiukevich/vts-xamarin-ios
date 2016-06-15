@@ -1,0 +1,12 @@
+﻿namespace Epam.Vts.Xamarin.Core.Data
+{
+    public interface IConnectionProvider
+    {
+        bool IsConnected { get; }
+    }
+
+    public class ConnectionProvider : IConnectionProvider
+    {
+        public bool IsConnected => Plugin.Connectivity.CrossConnectivity.Current.IsConnected;
+    }
+}
