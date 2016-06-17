@@ -121,9 +121,6 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
                 _type.ToRightOf(_status, 6),
                 _type.WithSameTop(_startDate),
                 _type.WithSameHeight(_startDate)
-
-
-
                 );
         }
     }

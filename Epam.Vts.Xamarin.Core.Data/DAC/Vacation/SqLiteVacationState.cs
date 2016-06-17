@@ -16,6 +16,10 @@ namespace Epam.Vts.Xamarin.Core.Data.DAC.Vacation
         {
             _sqLiteConnection = sqLite.GetConnection();
             _sqLiteConnection.CreateTable<VacationInfoTransferModel>();
+
+            _sqLiteConnection.InsertAll(
+                Enumerable.Range(1, 20)
+                    .Select((x, i) => new VacationInfoTransferModel {Id = i, Comment = $"Comment_{i}"}));
         }
 
         public Task<IEnumerable<VacationInfoTransferModel>> GetAllAsync() //TODO: Create TaskCreatorHelper

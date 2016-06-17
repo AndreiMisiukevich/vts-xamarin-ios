@@ -44,7 +44,7 @@ namespace Epam.Vts.Xamarin.Core.BusinessLogic
             Register<ILoginAccessComponent, LoginAccessComponent>();
             Register<IPersonAccessComponent, PersonAccessComponent>();
             Register<IVacationAccessComponent, VacationAccessComponent>();
-            Register<IConnectionProvider, ConnectionProvider>();
+            Register<IConnectionProvider, FakeConnectionProvider>(); //Register<IConnectionProvider, ConnectionProvider>();
             Register<IRestService, RestService>();
         }
     }

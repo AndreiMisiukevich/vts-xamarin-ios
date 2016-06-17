@@ -143,7 +143,7 @@
 //            base.Dispose(disposing);
 //        }
 
-//        private async void  RightButtonUpSide(object sender, EventArgs e)
+//        private async void RightButtonUpSide(object sender, EventArgs e)
 //        {
 //            _vacationInfoViewModel.Delete();
 

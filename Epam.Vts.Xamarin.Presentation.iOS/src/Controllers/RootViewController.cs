@@ -18,12 +18,9 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
             UserModel = userModel;
         }
 
-        public override async void ViewDidLoad()
+        public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-            var vacationInfoList = await App.AppDelegate.Factory.Resolve<IVacationProvider>().GetAllAsync();
-
             NavController = new NavController();
             NavController.PushViewController(new VacationInfosListViewController(), false);
 

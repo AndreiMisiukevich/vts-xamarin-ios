@@ -9,4 +9,9 @@
     {
         public bool IsConnected => Plugin.Connectivity.CrossConnectivity.Current.IsConnected;
     }
+
+    public class FakeConnectionProvider : IConnectionProvider
+    {
+        public bool IsConnected => false;
+    }
 }
