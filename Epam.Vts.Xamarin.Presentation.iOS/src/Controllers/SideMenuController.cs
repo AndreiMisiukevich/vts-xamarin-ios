@@ -3,6 +3,8 @@ using Epam.Vts.Xamarin.Core.CrossCutting;
 using Epam.Vts.Xamarin.Presentation.iOS.Helpers;
 using Epam.Vts.Xamarin.Presentation.iOS.Infrastructure;
 using UIKit;
+using Epam.Vts.Xamarin.Core.BusinessLogic.Models;
+using Epam.Vts.Xamarin.Core.BusinessLogic.Providers;
 
 namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 {
@@ -32,12 +34,12 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
                 //NavController.PushViewController(new CreateVacationViewController(), false);
             };
 
-            listOfVacationButton.TouchUpInside += (sender, e) =>
+            listOfVacationButton.TouchUpInside += async (sender, e) => 
             {
 
                 SidebarController.CloseMenu();
-
-                NavController.PushViewController(new VacationInfosListViewController(), false);
+				var items = await App.AppDelegate.Factory.Resolve<IVacationProvider> ().GetAllAsync ();
+				NavController.PushViewController(new VacationInfosListViewController(items), false);
             };
 
             galleryButton.TouchUpInside += (sender, e) =>

@@ -57,7 +57,7 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
                 Placeholder = Localization.LoginEntryText,
                 BorderStyle = UITextBorderStyle.RoundedRect,
                 KeyboardType = UIKeyboardType.EmailAddress,
-                Text = "dz@epam.com",
+                Text = "test",
             };
 
             PasswordTextField = new UITextField
@@ -65,7 +65,7 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
                 SecureTextEntry = true,
                 BorderStyle = UITextBorderStyle.RoundedRect,
                 Placeholder = Localization.PasswordEntryText,
-                Text = "test1",
+                Text = "test",
             };
 
             EmailTextField.EditingDidEndOnExit += HideKeyboard;

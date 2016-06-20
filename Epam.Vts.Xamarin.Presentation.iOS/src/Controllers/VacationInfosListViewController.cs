@@ -8,6 +8,7 @@ using Epam.Vts.Xamarin.Core.CrossCutting;
 using Epam.Vts.Xamarin.Presentation.iOS.Helpers;
 using Foundation;
 using UIKit;
+using System.Threading.Tasks;
 
 namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 {
@@ -15,6 +16,11 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
     {
         private List<VacationModel> _itemsSource;
         public const string ReuseId = "ReuseId";
+
+		public VacationInfosListViewController(IEnumerable<VacationModel> items)
+		{
+			_itemsSource = items.ToList ();
+		}
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
@@ -29,7 +35,6 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
             base.ViewWillAppear(animated);
             Title = Localization.VacationsPageTitle;
             TableView.RegisterClassForCellReuse(typeof(VacationInfoCell), ReuseId);
-            _itemsSource = (await App.AppDelegate.Factory.Resolve<IVacationProvider>().GetAllAsync()).ToList();
         }
 
         public override void ViewDidLayoutSubviews()
@@ -48,10 +53,10 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
             return cell;
         }
 
-        public override nint RowsInSection(UITableView tableview, nint section)
-        {
-            return _itemsSource.Count;
-        }
+		public override nint RowsInSection(UITableView tableview, nint section)
+		{
+			return _itemsSource.Count;
+		}
     }
 
     public class VacationInfoCell : UITableViewCell

@@ -18,11 +18,12 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
             UserModel = userModel;
         }
 
-        public override void ViewDidLoad()
+		public override async void ViewDidLoad()
         {
             base.ViewDidLoad();
             NavController = new NavController();
-            NavController.PushViewController(new VacationInfosListViewController(), false);
+			var items = await App.AppDelegate.Factory.Resolve<IVacationProvider> ().GetAllAsync ();
+			NavController.PushViewController(new VacationInfosListViewController(items), false);
 
             SidebarController = new SidebarController(this, NavController, new SideMenuController())
             {
