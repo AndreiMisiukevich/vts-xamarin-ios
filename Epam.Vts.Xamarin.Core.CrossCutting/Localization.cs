@@ -49,6 +49,7 @@ namespace Epam.Vts.Xamarin.Core.CrossCutting
         public static string AboutTitleText => GetValue();
         public static string AboutContentText => GetValue();
         public static string GalleryPageTitle => GetValue();
+        public static string CameraTitle => GetValue();
         public static string AddVacationPageTitle => GetValue();
 
 
@@ -86,6 +87,8 @@ namespace Epam.Vts.Xamarin.Core.CrossCutting
             Dictionary.Add("AboutContentText_Ru", "(с) ЕПАМ, 2016");
             Dictionary.Add("GalleryPageTitle_En", "Gallery");
             Dictionary.Add("GalleryPageTitle_Ru", "Галерея");
+            Dictionary.Add("CameraTitle_En", "Camera");
+            Dictionary.Add("CameraTitle_Ru", "Камера");
             Dictionary.Add("AddVacationPageTitle_En", "New vacation");
             Dictionary.Add("AddVacationPageTitle_Ru", "Новая запись");
         }

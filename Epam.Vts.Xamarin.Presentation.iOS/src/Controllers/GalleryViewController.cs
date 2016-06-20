@@ -11,6 +11,7 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
         private const string ImageTag = "public.image";
 
         private UIButton _loadButton;
+        private UIButton _cameraButton;
         private UIImageView _displayView;
         private UIImagePickerController _imagePicker;
 
@@ -22,7 +23,6 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 
             _imagePicker = new UIImagePickerController
             {
-                SourceType = UIImagePickerControllerSourceType.PhotoLibrary,
                 MediaTypes = UIImagePickerController.AvailableMediaTypes(UIImagePickerControllerSourceType.PhotoLibrary)
             };
 
@@ -33,19 +33,32 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
             _loadButton = new UIButton { BackgroundColor = UIColor.Gray };
             _loadButton.SetTitle(Localization.GalleryPageTitle, UIControlState.Normal);
 
-            _loadButton.TouchUpInside += LoadButtonUpSide;
+            _cameraButton = new UIButton { BackgroundColor = UIColor.DarkGray};
+            _cameraButton.SetTitle(Localization.CameraTitle, UIControlState.Normal);
 
-            View.AddSubviews(_loadButton, _displayView);
+            _loadButton.TouchUpInside += LoadButtonUpSide;
+            _cameraButton.TouchUpInside += CameraButtonUpSide;
+
+            View.AddSubviews(_loadButton, _cameraButton, _displayView);
             View.SubviewsDoNotTranslateAutoresizingMaskIntoConstraints();
             View.AddConstraints(
                     _loadButton.AtTopOf(View).Plus(100),
-                    _loadButton.WithSameCenterX(View),
-                    _loadButton.Width().EqualTo().WidthOf(_loadButton).Plus(10),
+                    _loadButton.WithSameLeft(View),
+                    _loadButton.Width().EqualTo(150),
+
+                    _cameraButton.AtTopOf(View).Plus(100),
+                    _cameraButton.WithSameRight(View),
+                    _cameraButton.Width().EqualTo().WidthOf(_loadButton),
                     
                     _displayView.Below(_loadButton, 15),
                     _displayView.Width().EqualTo().WidthOf(View),
                     _displayView.Height().EqualTo().HeightOf(View).Minus(125)
                 );
+        }
+
+        private void CameraButtonUpSide(object sender, EventArgs e)
+        {
+            _imagePicker.SourceType = UIImagePickerControllerSourceType.Camera;
         }
 
         private void Handle_Canceled(object sender, EventArgs e)
@@ -84,6 +97,7 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 
         private void LoadButtonUpSide(object sender, EventArgs e)
         {
+            _imagePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
             NavigationController.PresentModalViewController(_imagePicker, true);
         }
     }
