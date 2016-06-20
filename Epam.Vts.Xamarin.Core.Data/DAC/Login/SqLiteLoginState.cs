@@ -14,8 +14,6 @@ namespace Epam.Vts.Xamarin.Core.Data.DAC.Login
         {
             _connection = sqLite.GetConnection();
             _connection.CreateTable<PersonCredentialsTransferModel>();
-
-            _connection.Insert(new PersonCredentialsTransferModel {Email = "test", Password = "test"});
         }
 
         public Task<bool> CheckIsUserRegistered(PersonCredentialsTransferModel context)

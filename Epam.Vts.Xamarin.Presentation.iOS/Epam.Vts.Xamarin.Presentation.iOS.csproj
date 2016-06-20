@@ -127,45 +127,39 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Cirrious.FluentLayouts.Touch, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cirrious.FluentLayout.2.5.0\lib\Xamarin.iOS10\Cirrious.FluentLayouts.Touch.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Portable.Ninject.3.3.1\lib\Xamarin.iOS\Ninject.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.Connectivity, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xam.Plugin.Connectivity.2.1.2\lib\Xamarin.iOS10\Plugin.Connectivity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Plugin.Connectivity.Abstractions, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xam.Plugin.Connectivity.2.1.2\lib\Xamarin.iOS10\Plugin.Connectivity.Abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SQLite-net, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\sqlite-net-pcl.1.1.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Xamarin-Sidebar-Unified, Version=1.0.5954.17706, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SidebarNavigation.1.9.0.2\lib\Xamarin.iOS10\Xamarin-Sidebar-Unified.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="Cirrious.FluentLayouts.Touch, Version=2.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Cirrious.FluentLayout.2.5.0\lib\Xamarin.iOS10\Cirrious.FluentLayouts.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7">
+      <HintPath>..\packages\Portable.Ninject.3.3.1\lib\Xamarin.iOS\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Connectivity, Version=2.1.2.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Xam.Plugin.Connectivity.2.1.2\lib\Xamarin.iOS10\Plugin.Connectivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Connectivity.Abstractions, Version=2.1.2.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Xam.Plugin.Connectivity.2.1.2\lib\Xamarin.iOS10\Plugin.Connectivity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\sqlite-net-pcl.1.1.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin-Sidebar-Unified, Version=1.0.5954.17706, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\SidebarNavigation.1.9.0.2\lib\Xamarin.iOS10\Xamarin-Sidebar-Unified.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Epam.Vts.Xamarin.Core.BusinessLogic\Epam.Vts.Xamarin.Core.BusinessLogic.csproj">
-      <Project>{d0c27c47-f570-4aaa-b683-2f34e30333ef}</Project>
+      <Project>{D0C27C47-F570-4AAA-B683-2F34E30333EF}</Project>
       <Name>Epam.Vts.Xamarin.Core.BusinessLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Epam.Vts.Xamarin.Core.CrossCutting\Epam.Vts.Xamarin.Core.CrossCutting.csproj">
-      <Project>{b18bfea1-adf4-47b1-a572-963b353a7f2b}</Project>
+      <Project>{B18BFEA1-ADF4-47B1-A572-963B353A7F2B}</Project>
       <Name>Epam.Vts.Xamarin.Core.CrossCutting</Name>
     </ProjectReference>
   </ItemGroup>
