@@ -1,10 +1,8 @@
 using Cirrious.FluentLayouts.Touch;
+using Epam.Vts.Xamarin.Core.BusinessLogic.Providers;
 using Epam.Vts.Xamarin.Core.CrossCutting;
 using Epam.Vts.Xamarin.Presentation.iOS.Helpers;
-using Epam.Vts.Xamarin.Presentation.iOS.Infrastructure;
 using UIKit;
-using Epam.Vts.Xamarin.Core.BusinessLogic.Models;
-using Epam.Vts.Xamarin.Core.BusinessLogic.Providers;
 
 namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 {
@@ -38,14 +36,14 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
             {
 
                 SidebarController.CloseMenu();
-				var items = await App.AppDelegate.Factory.Resolve<IVacationProvider> ().GetAllAsync ();
+				var items = await Context.App.Factory.Resolve<IVacationProvider> ().GetAllAsync ();
 				NavController.PushViewController(new VacationInfosListViewController(items), false);
             };
 
             galleryButton.TouchUpInside += (sender, e) =>
             {
                 SidebarController.CloseMenu();
-                //NavController.PushViewController(new GalleryViewController(), false);
+                NavController.PushViewController(new GalleryViewController(), false);
             };
 
             aboutButton.TouchUpInside += (sender, e) =>
@@ -76,7 +74,6 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
                 aboutButton.Below(galleryButton, margin),
                 aboutButton.WithSameCenterX(View),
                 aboutButton.Width().EqualTo().WidthOf(galleryButton)
-
                 );
         }
     }

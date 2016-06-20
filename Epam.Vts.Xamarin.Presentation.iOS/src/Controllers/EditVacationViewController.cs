@@ -147,20 +147,20 @@
 //        {
 //            _vacationInfoViewModel.Delete();
 
-//            var vacationInfoList = AppDelegate.Factory.Get<VacationInfoListViewModel>();
-//            await vacationInfoList.Fetch(App.AppDelegate.RootViewController.UserModel.Id);
+//            var vacationInfoList = App.Factory.Get<VacationInfoListViewModel>();
+//            await vacationInfoList.Fetch(Context.App.RootViewController.UserModel.Id);
 
-//            App.AppDelegate.RootViewController.NavController.PushViewController(new VacationInfosListViewController(vacationInfoList), false);
+//            Context.App.RootViewController.NavController.PushViewController(new VacationInfosListViewController(vacationInfoList), false);
 //        }
 
 //        private async void LeftButtonUpSide(object sender, EventArgs e)
 //        {
 //            _vacationInfoViewModel.Update();
 
-//            var vacationInfoList = AppDelegate.Factory.Get<VacationInfoListViewModel>();
-//            await vacationInfoList.Fetch(App.AppDelegate.RootViewController.UserModel.Id);
+//            var vacationInfoList = App.Factory.Get<VacationInfoListViewModel>();
+//            await vacationInfoList.Fetch(Context.App.RootViewController.UserModel.Id);
 
-//            App.AppDelegate.RootViewController.NavController.PushViewController(new VacationInfosListViewController(vacationInfoList), false);
+//            Context.App.RootViewController.NavController.PushViewController(new VacationInfosListViewController(vacationInfoList), false);
 //        }
 
 //        private void ComentValueChanged(object sender, EventArgs e)
@@ -172,14 +172,14 @@
 
 //        private void EndDateValueChanged(object sender, EventArgs e)
 //        {
-//            _vacationInfoViewModel.EndDate = DateTime.ParseExact(((UITextField)sender).Text, "d", AppDelegate.Factory.Get<ILocalizer>().GetCurrentCultureInfo());
+//            _vacationInfoViewModel.EndDate = DateTime.ParseExact(((UITextField)sender).Text, "d", App.Factory.Get<ILocalizer>().GetCurrentCultureInfo());
 //            ((UITextField)sender).ResignFirstResponder();
 //            Update();
 //        }
 
 //        private void StartDateValueChanged(object sender, EventArgs e)
 //        {
-//            _vacationInfoViewModel.StartDate = DateTime.ParseExact(((UITextField)sender).Text, "d", AppDelegate.Factory.Get<ILocalizer>().GetCurrentCultureInfo());
+//            _vacationInfoViewModel.StartDate = DateTime.ParseExact(((UITextField)sender).Text, "d", App.Factory.Get<ILocalizer>().GetCurrentCultureInfo());
 //            ((UITextField)sender).ResignFirstResponder();
 //            Update();
 //        }

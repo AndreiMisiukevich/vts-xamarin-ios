@@ -1,6 +1,6 @@
 using Epam.Vts.Xamarin.Presentation.iOS.Helpers;
+using SidebarNavigation;
 using UIKit;
-using SidebarController = SidebarNavigation.SidebarController;
 
 namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 {
@@ -8,25 +8,33 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
     {
         private UIBarButtonItem _barButtonItem;
 
-        protected SidebarController SidebarController => App.AppDelegate?.RootViewController.SidebarController;
-        protected NavController NavController => App.AppDelegate?.RootViewController.NavController;
+        protected SidebarController SidebarController => Context.App?.RootViewController.SidebarController;
+        protected NavController NavController => Context.App?.RootViewController.NavController;
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            _barButtonItem = new UIBarButtonItem(UIImage.FromBundle("threelines"),
+            _barButtonItem = new UIBarButtonItem(UIImage.FromBundle("hamb"),
                                                  UIBarButtonItemStyle.Plain,
                                                  (sender, args) => { SidebarController.ToggleMenu(); }
                                                  );
 
-            NavigationItem.SetLeftBarButtonItem(_barButtonItem, true);
+            NavigationItem.SetRightBarButtonItem(_barButtonItem, true);
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            NavigationItem.SetHidesBackButton(true, false);
         }
 
         protected override void Dispose(bool disposing)
         {
-            _barButtonItem.Dispose();
-
+            if (disposing)
+            {
+                _barButtonItem.Dispose();
+            }
             base.Dispose(disposing);
         }
     }
@@ -35,25 +43,33 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
     {
         private UIBarButtonItem _barButtonItem;
 
-        protected SidebarController SidebarController => App.AppDelegate?.RootViewController.SidebarController;
-        protected NavController NavController => App.AppDelegate?.RootViewController.NavController;
+        protected SidebarController SidebarController => Context.App?.RootViewController.SidebarController;
+        protected NavController NavController => Context.App?.RootViewController.NavController;
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            _barButtonItem = new UIBarButtonItem(UIImage.FromBundle("threelines"),
+            _barButtonItem = new UIBarButtonItem(UIImage.FromBundle("hamb"),
                                                  UIBarButtonItemStyle.Plain,
                                                  (sender, args) => { SidebarController.ToggleMenu(); }
                                                  );
 
-            NavigationItem.SetLeftBarButtonItem(_barButtonItem, true);
+            NavigationItem.SetRightBarButtonItem(_barButtonItem, true);
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            NavigationItem.SetHidesBackButton(true, false);
         }
 
         protected override void Dispose(bool disposing)
         {
-            _barButtonItem.Dispose();
-
+            if (disposing)
+            {
+                _barButtonItem.Dispose();
+            }
             base.Dispose(disposing);
         }
     }

@@ -6,10 +6,10 @@ using UIKit;
 
 namespace Epam.Vts.Xamarin.Presentation.iOS.Infrastructure
 {
-    [Register("AppDelegate")]
+    [Register("App")]
     public class AppDelegate : UIApplicationDelegate
     {
-        public IContainer Factory;
+        public IContainer Factory { get; private set; }
         public override UIWindow Window { get; set; }
         public RootViewController RootViewController => Window.RootViewController as RootViewController;
 
@@ -21,7 +21,7 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Infrastructure
             Window = new UIWindow(UIScreen.MainScreen.Bounds)
             {
                 RootViewController = new LoginViewController(),
-                BackgroundColor = UIColor.White,
+                BackgroundColor = UIColor.White
             };
 
             Window.MakeKeyAndVisible();

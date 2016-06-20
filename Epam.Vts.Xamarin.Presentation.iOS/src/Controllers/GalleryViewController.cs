@@ -1,43 +1,90 @@
 using System;
 using Cirrious.FluentLayouts.Touch;
 using Epam.Vts.Xamarin.Core.CrossCutting;
+using Foundation;
 using UIKit;
 
 namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 {
     public class GalleryViewController : BaseController
     {
-        public UIButton LoadButton;
-        public UIImageView DisplayView;
+        private const string ImageTag = "public.image";
+
+        private UIButton _loadButton;
+        private UIImageView _displayView;
+        private UIImagePickerController _imagePicker;
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
             View.BackgroundColor = UIColor.White;
-            this.Title = Localization.GalleryPageTitle;
+            Title = Localization.GalleryPageTitle;
 
-            LoadButton = new UIButton { BackgroundColor = UIColor.Gray, };
-            LoadButton.SetTitle(Localization.GalleryPageTitle, UIControlState.Normal);
+            _imagePicker = new UIImagePickerController
+            {
+                SourceType = UIImagePickerControllerSourceType.PhotoLibrary,
+                MediaTypes = UIImagePickerController.AvailableMediaTypes(UIImagePickerControllerSourceType.PhotoLibrary)
+            };
 
-            LoadButton.TouchUpInside += LoadButtonUpSide;
+            _imagePicker.FinishedPickingMedia += Handle_FinishedPickingMedia;
+            _imagePicker.Canceled += Handle_Canceled;
 
-            View.AddSubviews(LoadButton);
+            _displayView = new UIImageView();
+            _loadButton = new UIButton { BackgroundColor = UIColor.Gray };
+            _loadButton.SetTitle(Localization.GalleryPageTitle, UIControlState.Normal);
+
+            _loadButton.TouchUpInside += LoadButtonUpSide;
+
+            View.AddSubviews(_loadButton, _displayView);
             View.SubviewsDoNotTranslateAutoresizingMaskIntoConstraints();
             View.AddConstraints(
-                    LoadButton.AtTopOf(View).Plus(100),
-                    LoadButton.WithSameCenterX(View),
-                    LoadButton.Width().EqualTo().WidthOf(LoadButton).Plus(10)
+                    _loadButton.AtTopOf(View).Plus(100),
+                    _loadButton.WithSameCenterX(View),
+                    _loadButton.Width().EqualTo().WidthOf(_loadButton).Plus(10),
+                    
+                    _displayView.Below(_loadButton, 15),
+                    _displayView.Width().EqualTo().WidthOf(View),
+                    _displayView.Height().EqualTo().HeightOf(View).Minus(125)
                 );
+        }
+
+        private void Handle_Canceled(object sender, EventArgs e)
+        {
+            _imagePicker.DismissModalViewController(true);
+        }
+
+        private void Handle_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
+        {
+            var isImage = string.Equals(e.Info[UIImagePickerController.MediaType].ToString(), ImageTag,
+                StringComparison.InvariantCultureIgnoreCase);
+
+            if (isImage)
+            {
+                var originalImage = e.Info[UIImagePickerController.OriginalImage] as UIImage;
+                if (originalImage != null)
+                {
+                    _displayView.Image = originalImage;
+                }
+            }
+
+            _imagePicker.DismissModalViewController(true);
         }
 
 
         protected override void Dispose(bool disposing)
         {
-            LoadButton.TouchUpInside -= LoadButtonUpSide;
-
+            if (disposing)
+            {
+                _loadButton.TouchUpInside -= LoadButtonUpSide;
+                _imagePicker.FinishedPickingMedia -= Handle_FinishedPickingMedia;
+                _imagePicker.Canceled -= Handle_Canceled;
+            }
             base.Dispose(disposing);
         }
 
-        private void LoadButtonUpSide(object sender, EventArgs e) { }
+        private void LoadButtonUpSide(object sender, EventArgs e)
+        {
+            NavigationController.PresentModalViewController(_imagePicker, true);
+        }
     }
 }

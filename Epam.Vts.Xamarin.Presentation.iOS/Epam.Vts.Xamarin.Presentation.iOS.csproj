@@ -46,8 +46,11 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Harald Berntsen (9SJQ2AKNZD)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignProvision>5513d36c-4cdc-4533-8adf-0aadac058b16</CodesignProvision>
+    <CodesignResourceRules />
+    <CodesignExtraArgs />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -117,7 +120,7 @@
     <Compile Include="src\Controllers\VacationInfosListViewController.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="src\Helpers\App.cs" />
+    <Compile Include="src\Helpers\Context.cs" />
     <Compile Include="src\Infrastructure\AppDelegate.cs" />
     <Compile Include="src\Infrastructure\SqLite.cs" />
     <None Include="GettingStarted.Xamarin" />
@@ -152,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
+    <BundleResource Include="Resources\hamb.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Epam.Vts.Xamarin.Core.BusinessLogic\Epam.Vts.Xamarin.Core.BusinessLogic.csproj">

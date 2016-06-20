@@ -28,7 +28,7 @@
 
 //        public CreateVacationViewController()
 //        {
-//            _vacationInfoViewModel = AppDelegate.Factory.Get<VacationInfoViewModel>();
+//            _vacationInfoViewModel = App.Factory.Get<VacationInfoViewModel>();
 //        }
 
 //        public override void ViewDidLoad()
@@ -146,13 +146,13 @@
 
 //        private void RightButtonUpSide(object sender, EventArgs e)
 //        {
-//            App.AppDelegate.RootViewController.NavController.PopViewController(true);
+//            Context.App.RootViewController.NavController.PopViewController(true);
 //        }
 
 //        private void LeftButtonUpSide(object sender, EventArgs e)
 //        {
 //            _vacationInfoViewModel.Create();
-//            App.AppDelegate.RootViewController.NavController.PopViewController(true);
+//            Context.App.RootViewController.NavController.PopViewController(true);
 //        }
 
 //        private void ComentValueChanged(object sender, EventArgs e)
@@ -164,14 +164,14 @@
         
 //        private void EndDateValueChanged(object sender, EventArgs e)
 //        {
-//            _vacationInfoViewModel.EndDate = DateTime.ParseExact(((UITextField)sender).Text, "d", AppDelegate.Factory.Get<ILocalizer>().GetCurrentCultureInfo());
+//            _vacationInfoViewModel.EndDate = DateTime.ParseExact(((UITextField)sender).Text, "d", App.Factory.Get<ILocalizer>().GetCurrentCultureInfo());
 //            ((UITextField)sender).ResignFirstResponder();
 //            Update();
 //        }
 
 //        private void StartDateValueChanged(object sender, EventArgs e)
 //        {
-//            _vacationInfoViewModel.StartDate = DateTime.ParseExact(((UITextField)sender).Text, "d", AppDelegate.Factory.Get<ILocalizer>().GetCurrentCultureInfo());
+//            _vacationInfoViewModel.StartDate = DateTime.ParseExact(((UITextField)sender).Text, "d", App.Factory.Get<ILocalizer>().GetCurrentCultureInfo());
 //            ((UITextField)sender).ResignFirstResponder();
 //            Update();
 //        }

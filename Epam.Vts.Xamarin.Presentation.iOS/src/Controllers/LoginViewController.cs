@@ -4,19 +4,18 @@ using Epam.Vts.Xamarin.Core.BusinessLogic.Models;
 using Epam.Vts.Xamarin.Core.BusinessLogic.Providers;
 using Epam.Vts.Xamarin.Core.CrossCutting;
 using Epam.Vts.Xamarin.Presentation.iOS.Helpers;
-using Epam.Vts.Xamarin.Presentation.iOS.Infrastructure;
 using UIKit;
 
 namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 {
     public class LoginViewController : UIViewController
     {
-        public UITextField EmailTextField;
-        public UITextField PasswordTextField;
-        public UILabel ErrorLable;
-        public UILabel EmailLable;
-        public UILabel PasswordLable;
-        public UIButton LoginButton;
+        private UITextField _emailTextField;
+        private UITextField _passwordTextField;
+        private UILabel _errorLable;
+        private UILabel _emailLable;
+        private UILabel _passwordLable;
+        private UIButton _loginButton;
 
         public PersonCredentialsModel UserModel;
 
@@ -30,99 +29,99 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
             base.ViewDidLoad();
             View.BackgroundColor = UIColor.White;
 
-            ErrorLable = new UILabel
+            _errorLable = new UILabel
             {
                 Text = Localization.IncorrectLoginOrPasswordMessage,
                 TextColor = UIColor.Red,
-                TextAlignment = UITextAlignment.Center,
+                TextAlignment = UITextAlignment.Center
             };
-            EmailLable = new UILabel
+            _emailLable = new UILabel
             {
                 Text = Localization.LoginEntryText,
                 TextColor = UIColor.Blue,
-                TextAlignment = UITextAlignment.Left,
+                TextAlignment = UITextAlignment.Left
             };
-            PasswordLable = new UILabel
+            _passwordLable = new UILabel
             {
                 Text = Localization.PasswordEntryText,
                 TextColor = UIColor.Blue,
-                TextAlignment = UITextAlignment.Left,
+                TextAlignment = UITextAlignment.Left
             };
 
-            LoginButton = new UIButton { BackgroundColor = UIColor.Gray };
-            LoginButton.SetTitle(Localization.LoginButtonText, UIControlState.Normal);
+            _loginButton = new UIButton { BackgroundColor = UIColor.Gray };
+            _loginButton.SetTitle(Localization.LoginButtonText, UIControlState.Normal);
 
-            EmailTextField = new UITextField
+            _emailTextField = new UITextField
             {
                 Placeholder = Localization.LoginEntryText,
                 BorderStyle = UITextBorderStyle.RoundedRect,
                 KeyboardType = UIKeyboardType.EmailAddress,
-                Text = "test",
+                Text = "test"
             };
 
-            PasswordTextField = new UITextField
+            _passwordTextField = new UITextField
             {
                 SecureTextEntry = true,
                 BorderStyle = UITextBorderStyle.RoundedRect,
                 Placeholder = Localization.PasswordEntryText,
-                Text = "test",
+                Text = "test"
             };
 
-            EmailTextField.EditingDidEndOnExit += HideKeyboard;
-            PasswordTextField.EditingDidEndOnExit += HideKeyboard;
-            LoginButton.TouchUpInside += Login;
+            _emailTextField.EditingDidEndOnExit += HideKeyboard;
+            _passwordTextField.EditingDidEndOnExit += HideKeyboard;
+            _loginButton.TouchUpInside += Login;
 
-            View.AddSubviews(ErrorLable, EmailLable, EmailTextField, PasswordLable, PasswordTextField, LoginButton);
+            View.AddSubviews(_errorLable, _emailLable, _emailTextField, _passwordLable, _passwordTextField, _loginButton);
 
             View.SubviewsDoNotTranslateAutoresizingMaskIntoConstraints();
 
             const int entryWidth = 150;
             const int margin = 10;
 
-            ErrorLable.Hidden = true;
+            _errorLable.Hidden = true;
 
             View.AddConstraints(
-                PasswordLable.WithSameCenterX(View).Minus(entryWidth / 2),
-                PasswordLable.WithSameCenterY(View),
+                _passwordLable.WithSameCenterX(View).Minus(entryWidth / 2),
+                _passwordLable.WithSameCenterY(View),
 
-                PasswordTextField.ToRightOf(PasswordLable, margin),
-                PasswordTextField.WithSameTop(PasswordLable).Minus(3),
-                PasswordTextField.Width().EqualTo(entryWidth),
+                _passwordTextField.ToRightOf(_passwordLable, margin),
+                _passwordTextField.WithSameTop(_passwordLable).Minus(3),
+                _passwordTextField.Width().EqualTo(entryWidth),
 
-                EmailLable.Above(PasswordLable, margin),
-                EmailLable.WithSameLeft(PasswordLable),
+                _emailLable.Above(_passwordLable, margin),
+                _emailLable.WithSameLeft(_passwordLable),
 
-                EmailTextField.ToRightOf(EmailLable),
-                EmailTextField.WithSameLeft(PasswordTextField),
-                EmailTextField.WithSameTop(EmailLable).Minus(3),
-                EmailTextField.Width().EqualTo(entryWidth),
+                _emailTextField.ToRightOf(_emailLable),
+                _emailTextField.WithSameLeft(_passwordTextField),
+                _emailTextField.WithSameTop(_emailLable).Minus(3),
+                _emailTextField.Width().EqualTo(entryWidth),
 
-                LoginButton.Below(PasswordLable, margin),
-                LoginButton.WithSameCenterX(View),
-                LoginButton.Width().EqualTo(entryWidth),
+                _loginButton.Below(_passwordLable, margin),
+                _loginButton.WithSameCenterX(View),
+                _loginButton.Width().EqualTo(entryWidth),
 
-                ErrorLable.Above(EmailLable, margin),
-                ErrorLable.WithSameCenterX(View)
+                _errorLable.Above(_emailLable, margin),
+                _errorLable.WithSameCenterX(View)
                 );
         }
 
         private async void Login(object sender, EventArgs e)
         {
-            var loginProvider = App.AppDelegate.Factory.Resolve<ILoginProvider>();
+            var loginProvider = Context.App.Factory.Resolve<ILoginProvider>();
             var context = new PersonCredentialsModel
             {
-                Email = EmailTextField.Text,
-                Password =PasswordTextField.Text
+                Email = _emailTextField.Text,
+                Password =_passwordTextField.Text
             };
 
             if (!await loginProvider.CheckIsUserRegistried(context))
             {
-                ErrorLable.Hidden = false;
+                _errorLable.Hidden = false;
             }
             else
             {
-                App.AppDelegate.Window.RootViewController = new RootViewController(context);
-                ErrorLable.Hidden = true;
+                Context.App.Window.RootViewController = new RootViewController(context);
+                _errorLable.Hidden = true;
             }
         }
 
@@ -133,10 +132,10 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            EmailTextField.EditingDidEndOnExit -= HideKeyboard;
-            PasswordTextField.EditingDidEndOnExit -= HideKeyboard;
-            LoginButton.TouchUpInside -= Login;
-            EmailTextField.Dispose();
+            _emailTextField.EditingDidEndOnExit -= HideKeyboard;
+            _passwordTextField.EditingDidEndOnExit -= HideKeyboard;
+            _loginButton.TouchUpInside -= Login;
+            _emailTextField.Dispose();
             base.Dispose(disposing);
         }
     }

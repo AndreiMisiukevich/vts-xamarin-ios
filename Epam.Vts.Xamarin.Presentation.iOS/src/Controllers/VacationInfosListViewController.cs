@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Cirrious.FluentLayouts.Touch;
 using Epam.Vts.Xamarin.Core.BusinessLogic.Models;
-using Epam.Vts.Xamarin.Core.BusinessLogic.Providers;
 using Epam.Vts.Xamarin.Core.CrossCutting;
-using Epam.Vts.Xamarin.Presentation.iOS.Helpers;
 using Foundation;
 using UIKit;
-using System.Threading.Tasks;
 
 namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 {
     public class VacationInfosListViewController : BaseTableController
     {
-        private List<VacationModel> _itemsSource;
+        private readonly List<VacationModel> _itemsSource;
         public const string ReuseId = "ReuseId";
 
 		public VacationInfosListViewController(IEnumerable<VacationModel> items)
@@ -26,11 +23,11 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
         {
             var item = _itemsSource[indexPath.Row];
 
-            //App.AppDelegate.RootViewController.NavController.PushViewController(new EditVacationViewController(item),
+            //Context.App.RootViewController.NavController.PushViewController(new EditVacationViewController(item),
             //    true);
         }
 
-        public override async void ViewWillAppear(bool animated)
+        public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
             Title = Localization.VacationsPageTitle;
@@ -41,15 +38,13 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
         {
             base.ViewDidLayoutSubviews();
 
-            TableView.ContentInset = new UIEdgeInsets(this.TopLayoutGuide.Length, 0, 0, 0);
+            TableView.ContentInset = new UIEdgeInsets(TopLayoutGuide.Length, 0, 0, 0);
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = (VacationInfoCell) tableView.DequeueReusableCell(ReuseId);
-
             cell.UpdateData(_itemsSource[indexPath.Row]);
-
             return cell;
         }
 
