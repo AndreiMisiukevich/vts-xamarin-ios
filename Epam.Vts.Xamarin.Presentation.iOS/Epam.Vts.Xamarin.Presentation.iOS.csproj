@@ -155,7 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
-    <BundleResource Include="Resources\hamb.png" />
+    <BundleResource Include="Resources\hamb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Epam.Vts.Xamarin.Core.BusinessLogic\Epam.Vts.Xamarin.Core.BusinessLogic.csproj">
