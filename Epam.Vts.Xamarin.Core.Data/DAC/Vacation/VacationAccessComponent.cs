@@ -47,7 +47,7 @@ namespace Epam.Vts.Xamarin.Core.Data.DAC.Vacation
 
         public Task DeleteAsync(VacationInfoTransferModel transferModel)
         {
-            return CurrentState.UpdateAsync(transferModel);
+            return CurrentState.DeleteAsync(transferModel);
         }
 
         public Task<int> AddAsync(VacationInfoTransferModel transferModel)

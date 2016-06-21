@@ -75,15 +75,14 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 			return _itemsSource.Count;
 		}
 
-        public override void CommitEditingStyle(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
+        public override async void CommitEditingStyle(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
         {
             if (editingStyle == UITableViewCellEditingStyle.Delete)
             {
                 var item = _itemsSource[indexPath.Row];
+                await Context.App.Factory.Resolve<IVacationProvider>().DeleteAsync(item);
                 _itemsSource.Remove(item);
                 tableView.DeleteRows(new[] {indexPath}, UITableViewRowAnimation.Fade);
-                Context.App.Factory.Resolve<IVacationProvider>().DeleteAsync(item);
-
             }
         }
     }
