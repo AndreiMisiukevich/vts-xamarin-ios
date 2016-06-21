@@ -31,19 +31,26 @@ namespace Epam.Vts.Xamarin.Core.Data.DAC.Vacation
                     () => _connection.Table<VacationInfoTransferModel>().FirstOrDefault(x => x.Id == id));
         }
 
-        public Task Update(VacationInfoTransferModel transferModel)
+        public Task UpdateAsync(VacationInfoTransferModel transferModel)
         {
-            return Task.Factory.StartNew(() => _connection.Update(transferModel));
+            return Task.Factory.StartNew(() => _connection.Update(transferModel, typeof(VacationInfoTransferModel)));
         }
 
-        public Task<int> Add(VacationInfoTransferModel transferModel)
+        public Task DeleteAsync(VacationInfoTransferModel transferModel)
+        {
+            return Task.Factory.StartNew(
+                () => _connection.Delete<VacationInfoTransferModel>(transferModel.Id)
+                );
+        }
+
+        public Task<int> AddAsync(VacationInfoTransferModel transferModel)
         {
             return Task.Factory.StartNew(() =>
             {
                 var table = _connection.Table<VacationInfoTransferModel>();
                 transferModel.Id = table.Any() ? table.Max(x => x.Id) + 1 : 1;
                 transferModel.ProcessInstanceId = "10" + transferModel.Id;
-                _connection.Insert(transferModel);
+                _connection.Insert(transferModel, typeof(VacationInfoTransferModel));
                 return transferModel.Id;
             });
         }

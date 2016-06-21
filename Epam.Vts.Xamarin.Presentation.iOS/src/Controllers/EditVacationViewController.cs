@@ -1,256 +1,114 @@
-//using System;
-//using Cirrious.FluentLayouts.Touch;
-//using Epam.Vts.Xamarin.Presentation.iOS.Helpers;
-//using UIKit;
+using System;
+using System.Runtime.InteropServices;
+using Cirrious.FluentLayouts.Touch;
+using Epam.Vts.Xamarin.Core.BusinessLogic.Models;
+using Epam.Vts.Xamarin.Core.BusinessLogic.Providers;
+using Epam.Vts.Xamarin.Core.CrossCutting;
+using Epam.Vts.Xamarin.Presentation.iOS.Helpers;
+using UIKit;
 
-//namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
-//{
-//    public class EditVacationViewController : BaseController
-//    {
-//        private readonly VacationInfoViewModel _vacationInfoViewModel;
+namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
+{
+    public class EditVacationViewController : HamburgerAbstractController
+    {
+        private readonly VacationModel _vacationModel;
+        private UIButton _updateButton;
 
-//        public UILabel StartTimeLabel;
-//        public UILabel EndTimeLabel;
-//        public UILabel StatusLabel;
-//        public UILabel TypeLabel;
-//        public UILabel CommentLabel;
-
-//        public UIButton StatusButton;
-//        public UIButton TypeButton;
-//        public UIButton LeftButton;
-//        public UIButton RightButton;
-
-//        public UITextField StartDateTextField;
-//        public UITextField EndDateTextField;
-//        public UITextField CommentTextField;
+        private UITextField _startDateTextField;
+        private UITextField _endDateTextField;
+        private UITextField _commentTextField;
 
 
-//        public EditVacationViewController(VacationInfoViewModel vacationInfoViewModel)
-//        {
-//            _vacationInfoViewModel = vacationInfoViewModel;
-//        }
+        public EditVacationViewController(VacationModel vacationModel)
+        {
+            _vacationModel = vacationModel;
+        }
 
-//        public override void ViewDidLoad()
-//        {
-//            base.ViewDidLoad();
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
 
-//            View.BackgroundColor = UIColor.White;
-//            Title = LocalizationConstants.VacationDetailPageTitle.Localize();
+            View.BackgroundColor = UIColor.White;
+            Title = Localization.VacationsPageTitle;
 
-//            var backColor = UIColor.Gray;
-//            var margin = 20;
-//            var entryWidth = 150;
+            var backColor = UIColor.Gray;
+            var margin = 20;
+            var entryWidth = 150;
 
-//            StartTimeLabel = new UILabel { Text = LocalizationConstants.StartLable.Localize() };
-//            EndTimeLabel = new UILabel { Text = LocalizationConstants.EndLable.Localize() };
-//            StatusLabel = new UILabel { Text = LocalizationConstants.StatusLable.Localize() };
-//            TypeLabel = new UILabel { Text = LocalizationConstants.TypeLable.Localize() };
-//            CommentLabel = new UILabel { Text = LocalizationConstants.CommentLable.Localize() };
+            _updateButton = new UIButton { BackgroundColor = UIColor.Gray };
+            _updateButton.SetTitle(Localization.UpdateButtonText, UIControlState.Normal);
 
-//            StatusButton = new UIButton { BackgroundColor = UIColor.Gray };
-//            TypeButton = new UIButton { BackgroundColor = UIColor.Gray };
-//            LeftButton = new UIButton { BackgroundColor = UIColor.Gray };
-//            RightButton = new UIButton { BackgroundColor = UIColor.Gray };
+            _startDateTextField = new UITextField {BackgroundColor = backColor};
+            _endDateTextField = new UITextField {BackgroundColor = backColor};
+            _commentTextField = new UITextField {BackgroundColor = backColor};
 
-//            LeftButton.SetTitle(LocalizationConstants.SaveButtonLable.Localize(), UIControlState.Normal);
-//            RightButton.SetTitle(LocalizationConstants.DeleteButtonLable.Localize(), UIControlState.Normal);
+            Update();
 
-//            StartDateTextField = new UITextField { BackgroundColor = backColor, };
-//            EndDateTextField = new UITextField { BackgroundColor = backColor, };
-//            CommentTextField = new UITextField { BackgroundColor = backColor, };
 
-//            Update();
+            View.AddSubviews(_startDateTextField, _endDateTextField,
+                _commentTextField, _updateButton);
 
-//            StatusButton.TouchUpInside += StatusUpSide;
-//            TypeButton.TouchUpInside += TypeButtonUpSide;
-//            LeftButton.TouchUpInside += LeftButtonUpSide;
-//            RightButton.TouchUpInside += RightButtonUpSide;
-//            CommentTextField.EditingDidEndOnExit += ComentValueChanged;
-//            StartDateTextField.EditingDidEndOnExit += StartDateValueChanged;
-//            EndDateTextField.EditingDidEndOnExit += EndDateValueChanged;
+            View.SubviewsDoNotTranslateAutoresizingMaskIntoConstraints();
 
-//            View.AddSubviews(StartTimeLabel, EndTimeLabel, StatusLabel,
-//                TypeLabel, CommentLabel, StartDateTextField, EndDateTextField, StatusButton, TypeButton,
-//                CommentTextField, LeftButton, RightButton);
+            View.AddConstraints(
+                _startDateTextField.AtTopOf(View).Plus(100),
+                _startDateTextField.WithSameCenterX(View),
+                _startDateTextField.Width().EqualTo(entryWidth - 50),
 
-//            View.SubviewsDoNotTranslateAutoresizingMaskIntoConstraints();
+                _endDateTextField.Below(_startDateTextField, margin),
+                _endDateTextField.WithSameLeft(_startDateTextField),
+                _endDateTextField.Width().EqualTo().WidthOf(_startDateTextField),
 
-//            View.AddConstraints(
-//                StartTimeLabel.AtTopOf(View).Plus(100),
-//                StartTimeLabel.WithSameCenterX(View).Minus(50),
-//                StartTimeLabel.Width().EqualTo(entryWidth - 50),
+                _commentTextField.Below(_endDateTextField, margin),
+                _commentTextField.WithSameLeft(_endDateTextField),
+                _commentTextField.Width().EqualTo().WidthOf(_endDateTextField),
 
-//                EndTimeLabel.Below(StartTimeLabel, margin),
-//                EndTimeLabel.WithSameLeft(StartTimeLabel),
-//                EndTimeLabel.Width().EqualTo().WidthOf(StartTimeLabel),
+                _startDateTextField.ToRightOf(_startDateTextField, margin),
+                _startDateTextField.WithSameTop(_startDateTextField).Minus(3),
+                _startDateTextField.Width().EqualTo(entryWidth - 50),
 
-//                StatusLabel.Below(EndTimeLabel, margin),
-//                StatusLabel.WithSameLeft(EndTimeLabel),
-//                StatusLabel.Width().EqualTo().WidthOf(EndTimeLabel),
+                _endDateTextField.ToRightOf(_endDateTextField, margin),
+                _endDateTextField.WithSameTop(_endDateTextField).Minus(3),
+                _endDateTextField.Width().EqualTo().WidthOf(_startDateTextField),
 
-//                TypeLabel.Below(StatusLabel, margin),
-//                TypeLabel.WithSameLeft(StatusLabel),
-//                TypeLabel.Width().EqualTo().WidthOf(StatusLabel),
+                _commentTextField.ToRightOf(_commentTextField, margin),
+                _commentTextField.WithSameTop(_commentTextField).Minus(6),
+                _commentTextField.Width().EqualTo().WidthOf(_commentTextField),
+                _commentTextField.Height().EqualTo().HeightOf(_commentTextField),
+                _commentTextField.WithSameLeft(_endDateTextField),
 
-//                CommentLabel.Below(TypeLabel, margin),
-//                CommentLabel.WithSameLeft(TypeLabel),
-//                CommentLabel.Width().EqualTo().WidthOf(TypeLabel),
+                _updateButton.Below(_commentTextField, margin),
+                _updateButton.WithSameLeft(_commentTextField),
+                _updateButton.Width().EqualTo().WidthOf(_endDateTextField)
+                );
+        }
 
-//                StartDateTextField.ToRightOf(StartTimeLabel, margin),
-//                StartDateTextField.WithSameTop(StartTimeLabel).Minus(3),
-//                StartDateTextField.Width().EqualTo(entryWidth - 50),
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            _updateButton.TouchDown += UpdateButtonOnTouchDown;
+        }
 
-//                EndDateTextField.ToRightOf(EndTimeLabel, margin),
-//                EndDateTextField.WithSameTop(EndTimeLabel).Minus(3),
-//                EndDateTextField.Width().EqualTo().WidthOf(StartDateTextField),
+        public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+            _updateButton.TouchDown -= UpdateButtonOnTouchDown;
+        }
 
-//                StatusButton.ToRightOf(StatusLabel, margin),
-//                StatusButton.WithSameTop(StatusLabel).Minus(6),
-//                StatusButton.Width().EqualTo().WidthOf(EndDateTextField),
-//                StatusButton.WithSameLeft(EndDateTextField),
+        private async void UpdateButtonOnTouchDown(object sender, EventArgs eventArgs)
+        {
+            _vacationModel.StartDate = DateTime.Parse(_startDateTextField.Text);
+            _vacationModel.EndDate = DateTime.Parse(_endDateTextField.Text);
+            _vacationModel.Comment = _commentTextField.Text;
 
-//                TypeButton.ToRightOf(TypeLabel, margin),
-//                TypeButton.WithSameTop(TypeLabel).Minus(6),
-//                TypeButton.Width().EqualTo().WidthOf(StatusButton),
-//                TypeButton.WithSameLeft(EndDateTextField),
+            await Context.App.Factory.Resolve<IVacationProvider>().UpdateAsync(_vacationModel);
+        }
 
-//                CommentTextField.ToRightOf(CommentLabel, margin),
-//                CommentTextField.WithSameTop(CommentLabel).Minus(6),
-//                CommentTextField.Width().EqualTo().WidthOf(StatusButton),
-//                CommentTextField.Height().EqualTo().HeightOf(StatusButton),
-//                CommentTextField.WithSameLeft(EndDateTextField),
-
-//                LeftButton.Below(CommentLabel, margin),
-//                LeftButton.WithSameLeft(CommentLabel),
-//                LeftButton.Width().EqualTo().WidthOf(EndDateTextField),
-
-//                RightButton.ToRightOf(LeftButton, margin),
-//                RightButton.WithSameTop(LeftButton),
-//                RightButton.Width().EqualTo().WidthOf(EndDateTextField)
-//                );
-//        }
-
-//        protected override void Dispose(bool disposing)
-//        {
-//            StatusButton.TouchUpInside += StatusUpSide;
-//            TypeButton.TouchUpInside += TypeButtonUpSide;
-//            LeftButton.TouchUpInside += LeftButtonUpSide;
-//            RightButton.TouchUpInside += RightButtonUpSide;
-//            CommentTextField.EditingDidEndOnExit += ComentValueChanged;
-//            StartDateTextField.EditingDidEndOnExit += StartDateValueChanged;
-//            EndDateTextField.EditingDidEndOnExit += EndDateValueChanged;
-
-//            base.Dispose(disposing);
-//        }
-
-//        private async void RightButtonUpSide(object sender, EventArgs e)
-//        {
-//            _vacationInfoViewModel.Delete();
-
-//            var vacationInfoList = App.Factory.Get<VacationInfoListViewModel>();
-//            await vacationInfoList.Fetch(Context.App.RootViewController.UserModel.Id);
-
-//            Context.App.RootViewController.NavController.PushViewController(new VacationInfosListViewController(vacationInfoList), false);
-//        }
-
-//        private async void LeftButtonUpSide(object sender, EventArgs e)
-//        {
-//            _vacationInfoViewModel.Update();
-
-//            var vacationInfoList = App.Factory.Get<VacationInfoListViewModel>();
-//            await vacationInfoList.Fetch(Context.App.RootViewController.UserModel.Id);
-
-//            Context.App.RootViewController.NavController.PushViewController(new VacationInfosListViewController(vacationInfoList), false);
-//        }
-
-//        private void ComentValueChanged(object sender, EventArgs e)
-//        {
-//            _vacationInfoViewModel.Comment = ((UITextField)sender).Text;
-//            ((UITextField)sender).ResignFirstResponder();
-//            Update();
-//        }
-
-//        private void EndDateValueChanged(object sender, EventArgs e)
-//        {
-//            _vacationInfoViewModel.EndDate = DateTime.ParseExact(((UITextField)sender).Text, "d", App.Factory.Get<ILocalizer>().GetCurrentCultureInfo());
-//            ((UITextField)sender).ResignFirstResponder();
-//            Update();
-//        }
-
-//        private void StartDateValueChanged(object sender, EventArgs e)
-//        {
-//            _vacationInfoViewModel.StartDate = DateTime.ParseExact(((UITextField)sender).Text, "d", App.Factory.Get<ILocalizer>().GetCurrentCultureInfo());
-//            ((UITextField)sender).ResignFirstResponder();
-//            Update();
-//        }
-
-//        private void StatusUpSide(object sender, EventArgs e)
-//        {
-//            var actionSheetAlert = UIAlertController.Create(LocalizationConstants.StatusLable, "", UIAlertControllerStyle.ActionSheet);
-
-//            foreach (var vacationStatusString in EnumHelper.GetVacationStatusStrings())
-//            {
-//                actionSheetAlert.AddAction(UIAlertAction.Create(vacationStatusString,
-//                    UIAlertActionStyle.Default,
-//                    (action) =>
-//                    {
-//                        _vacationInfoViewModel.Status =
-//                            vacationStatusString.ToVacationStatus();
-//                        Update();
-//                    }));
-//            }
-
-//            actionSheetAlert.AddAction(
-//                UIAlertAction.Create(LocalizationConstants.BackLable.Localize(),
-//                    UIAlertActionStyle.Cancel, (action) => { }));
-
-//            var presentationPopover = actionSheetAlert.PopoverPresentationController;
-//            if (presentationPopover != null)
-//            {
-//                presentationPopover.SourceView = this.View;
-//                presentationPopover.PermittedArrowDirections = UIPopoverArrowDirection.Up;
-//            }
-
-//            this.PresentViewController(actionSheetAlert, true, null);
-//        }
-
-//        private void TypeButtonUpSide(object sender, EventArgs e)
-//        {
-//            var actionSheetAlert = UIAlertController.Create(LocalizationConstants.StatusLable, "", UIAlertControllerStyle.ActionSheet);
-
-//            foreach (var vacationStatusString in EnumHelper.GetVacationTypeStrings())
-//            {
-//                actionSheetAlert.AddAction(UIAlertAction.Create(vacationStatusString,
-//                    UIAlertActionStyle.Default,
-//                    (action) =>
-//                    {
-//                        _vacationInfoViewModel.Type =
-//                            vacationStatusString.ToVacationType();
-//                        Update();
-//                    }));
-//            }
-
-//            actionSheetAlert.AddAction(
-//                UIAlertAction.Create(LocalizationConstants.BackLable.Localize(),
-//                    UIAlertActionStyle.Cancel, (action) => { }));
-
-//            var presentationPopover = actionSheetAlert.PopoverPresentationController;
-//            if (presentationPopover != null)
-//            {
-//                presentationPopover.SourceView = this.View;
-//                presentationPopover.PermittedArrowDirections = UIPopoverArrowDirection.Up;
-//            }
-
-//            this.PresentViewController(actionSheetAlert, true, null);
-//        }
-
-//        private void Update()
-//        {
-//            StatusButton.SetTitle(_vacationInfoViewModel.Status.ToString(), UIControlState.Normal);
-//            TypeButton.SetTitle(_vacationInfoViewModel.Type.ToString(), UIControlState.Normal);
-//            StartDateTextField.Text = _vacationInfoViewModel.StartDate.ToString("d");
-//            EndDateTextField.Text = _vacationInfoViewModel.EndDate.ToString("d");
-//            CommentTextField.Text = _vacationInfoViewModel.Comment;
-//        }
-//    }
-//}
+        private void Update()
+        {
+            _startDateTextField.Text = _vacationModel.StartDate.ToString("d");
+            _endDateTextField.Text = _vacationModel.EndDate.ToString("d");
+            _commentTextField.Text = _vacationModel.Comment;
+        }
+    }
+}

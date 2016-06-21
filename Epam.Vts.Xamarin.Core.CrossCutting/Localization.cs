@@ -50,8 +50,11 @@ namespace Epam.Vts.Xamarin.Core.CrossCutting
         public static string AboutContentText => GetValue();
         public static string GalleryPageTitle => GetValue();
         public static string CameraTitle => GetValue();
+        public static string CancelText => GetValue();
+        public static string YesText => GetValue();
+        public static string DeleteSureMessage => GetValue();
+        public static string DeleteSureTitle => GetValue();
         public static string AddVacationPageTitle => GetValue();
-
 
         private static string GetValue([CallerMemberName]string key = null)
         {
@@ -91,6 +94,18 @@ namespace Epam.Vts.Xamarin.Core.CrossCutting
             Dictionary.Add("CameraTitle_Ru", "Камера");
             Dictionary.Add("AddVacationPageTitle_En", "New vacation");
             Dictionary.Add("AddVacationPageTitle_Ru", "Новая запись");
+
+            Dictionary.Add("СancelText_En", "Cancel");
+            Dictionary.Add("СancelText_Ru", "Отмена");
+
+            Dictionary.Add("DeleteSureTitle_En", "Delete item");
+            Dictionary.Add("DeleteSureTitle_Ru", "Удалить запись");
+
+            Dictionary.Add("DeleteSureMessage_En", "Are you sure?");
+            Dictionary.Add("DeleteSureMessage_Ru", "Вы уверены?");
+
+            Dictionary.Add("YesText_En", "Yes");
+            Dictionary.Add("YesText_Ru", "Да");
         }
 
     }

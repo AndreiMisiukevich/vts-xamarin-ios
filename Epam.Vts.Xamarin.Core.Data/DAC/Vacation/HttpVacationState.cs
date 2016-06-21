@@ -24,12 +24,17 @@ namespace Epam.Vts.Xamarin.Core.Data.DAC.Vacation
             throw new NotImplementedException();
         }
 
-        public Task Update(VacationInfoTransferModel transferModel)
+        public Task UpdateAsync(VacationInfoTransferModel transferModel)
         {
             return _restService.UpdateVacation(transferModel);
         }
 
-        public Task<int> Add(VacationInfoTransferModel transferModel)
+        public Task DeleteAsync(VacationInfoTransferModel transferModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> AddAsync(VacationInfoTransferModel transferModel)
         {
             return _restService.AddVacation(transferModel);
         }

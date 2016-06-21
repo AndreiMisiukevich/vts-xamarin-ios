@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Cirrious.FluentLayouts.Touch;
 using Epam.Vts.Xamarin.Core.BusinessLogic.Models;
+using Epam.Vts.Xamarin.Core.BusinessLogic.Providers;
 using Epam.Vts.Xamarin.Core.CrossCutting;
+using Epam.Vts.Xamarin.Presentation.iOS.Helpers;
 using Foundation;
 using UIKit;
 
@@ -21,23 +23,43 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            var item = _itemsSource[indexPath.Row];
-
-            //Context.App.RootViewController.NavController.PushViewController(new EditVacationViewController(item),
-            //    true);
+            Context.App.RootViewController.NavController.PushViewController(new EditVacationViewController(_itemsSource[indexPath.Row]), false);
         }
 
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
+
+            var longPressGesture = new UILongPressGestureRecognizer(gestureRecognizer =>
+            {
+                if (gestureRecognizer.State == UIGestureRecognizerState.Began)
+                {
+                    Editing = !Editing;
+                }
+            });
+            View.AddGestureRecognizer(longPressGesture);
+
+
             Title = Localization.VacationsPageTitle;
+
+            var barItem = new UIBarButtonItem(UIImage.FromBundle("add"),
+                UIBarButtonItemStyle.Plain,
+                async (sender, args) =>
+                {
+                    var vac = new VacationModel();
+                    vac.Id = await Context.App.Factory.Resolve<IVacationProvider>().AddAsync(vac);
+                    _itemsSource.Add(vac);
+                    ((UITableView) View).ReloadData();
+                }
+                );
+
+            NavigationItem.SetLeftBarButtonItem(barItem, true);
             TableView.RegisterClassForCellReuse(typeof(VacationInfoCell), ReuseId);
         }
 
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-
             TableView.ContentInset = new UIEdgeInsets(TopLayoutGuide.Length, 0, 0, 0);
         }
 
@@ -52,6 +74,18 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 		{
 			return _itemsSource.Count;
 		}
+
+        public override void CommitEditingStyle(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
+        {
+            if (editingStyle == UITableViewCellEditingStyle.Delete)
+            {
+                var item = _itemsSource[indexPath.Row];
+                _itemsSource.Remove(item);
+                tableView.DeleteRows(new[] {indexPath}, UITableViewRowAnimation.Fade);
+                Context.App.Factory.Resolve<IVacationProvider>().DeleteAsync(item);
+
+            }
+        }
     }
 
     public class VacationInfoCell : UITableViewCell
@@ -86,6 +120,11 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
             };
             _status = new UILabel {Font = cellFont, TextColor = cellTextColor, TextAlignment = UITextAlignment.Left};
             _type = new UILabel {Font = cellFont, TextColor = cellTextColor, TextAlignment = UITextAlignment.Left};
+        }
+
+        public override void LayoutSubviews()
+        {
+            base.LayoutSubviews();
 
             ContentView.Add(_startDate);
             ContentView.Add(_endDate);
@@ -94,15 +133,10 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
             ContentView.Add(_type);
 
             ContentView.SubviewsDoNotTranslateAutoresizingMaskIntoConstraints();
-        }
-
-        public override void LayoutSubviews()
-        {
-            base.LayoutSubviews();
 
             ContentView.AddConstraints(
                 _startDate.WithSameTop(ContentView),
-                _startDate.WithSameLeft(ContentView),
+                _startDate.WithSameLeft(ContentView).Plus(80),
                 _startDate.WithSameHeight(ContentView),
 
                 _endDate.ToRightOf(_startDate, 6),

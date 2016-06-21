@@ -10,7 +10,7 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
     {
         public PersonCredentialsModel UserModel { get; private set; }
         public SidebarController SidebarController { get; private set; }
-        public NavController NavController { get; private set; }
+        public UINavigationController NavController { get; private set; }
 
         public RootViewController(PersonCredentialsModel userModel)
         {
@@ -20,7 +20,7 @@ namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 		public override async void ViewDidLoad()
         {
             base.ViewDidLoad();
-            NavController = new NavController();
+            NavController = new UINavigationController();
 			var items = await Context.App.Factory.Resolve<IVacationProvider> ().GetAllAsync ();
 			NavController.PushViewController(new VacationInfosListViewController(items), false);
 

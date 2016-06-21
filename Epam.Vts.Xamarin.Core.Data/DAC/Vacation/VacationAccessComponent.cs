@@ -9,8 +9,9 @@ namespace Epam.Vts.Xamarin.Core.Data.DAC.Vacation
     {
         Task<IEnumerable<VacationInfoTransferModel>> GetAllAsync();
         Task<VacationInfoTransferModel> GetByIdAsync(int id);
-        Task Update(VacationInfoTransferModel transferModel);
-        Task<int> Add(VacationInfoTransferModel transferModel);
+        Task UpdateAsync(VacationInfoTransferModel transferModel);
+        Task DeleteAsync(VacationInfoTransferModel transferModel);
+        Task<int> AddAsync(VacationInfoTransferModel transferModel);
     }
 
     public class VacationAccessComponent: AbstractAccessComponent<IVacationAccessComponent>, IVacationAccessComponent
@@ -39,14 +40,19 @@ namespace Epam.Vts.Xamarin.Core.Data.DAC.Vacation
             return CurrentState.GetByIdAsync(id);
         }
 
-        public Task Update(VacationInfoTransferModel transferModel)
+        public Task UpdateAsync(VacationInfoTransferModel transferModel)
         {
-            return CurrentState.Update(transferModel);
+            return CurrentState.UpdateAsync(transferModel);
         }
 
-        public Task<int> Add(VacationInfoTransferModel transferModel)
+        public Task DeleteAsync(VacationInfoTransferModel transferModel)
         {
-            return CurrentState.Add(transferModel);
+            return CurrentState.UpdateAsync(transferModel);
+        }
+
+        public Task<int> AddAsync(VacationInfoTransferModel transferModel)
+        {
+            return CurrentState.AddAsync(transferModel);
         }
     }
 }

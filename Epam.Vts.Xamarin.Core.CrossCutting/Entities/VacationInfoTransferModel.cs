@@ -1,11 +1,12 @@
 ﻿using System;
 using Epam.Vts.Xamarin.Core.CrossCutting.Enums;
+using SQLite;
 
 namespace Epam.Vts.Xamarin.Core.CrossCutting.Entities
 {
-
     public class VacationInfoTransferModel
     { 
+        [PrimaryKey]
         public int Id { get; set; }
 
         public virtual DateTime StartDate { get; set; }

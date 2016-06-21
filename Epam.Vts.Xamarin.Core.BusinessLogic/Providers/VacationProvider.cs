@@ -9,8 +9,9 @@ namespace Epam.Vts.Xamarin.Core.BusinessLogic.Providers
     public interface IVacationProvider
     {
         Task<IEnumerable<VacationModel>> GetAllAsync();
-        Task Update(VacationModel vacation);
-        Task<int> Add(VacationModel vacation);
+        Task UpdateAsync(VacationModel vacation);
+        Task<int> AddAsync(VacationModel vacation);
+        Task DeleteAsync(VacationModel vacation);
     }
 
     internal class VacationProvider: IVacationProvider
@@ -28,14 +29,19 @@ namespace Epam.Vts.Xamarin.Core.BusinessLogic.Providers
             return vacations.Select(v => new VacationModel(v));
         }
 
-        public Task Update(VacationModel vacation)
+        public Task UpdateAsync(VacationModel vacation)
         {
-            return _vacationComponent.Update(vacation);
+            return _vacationComponent.UpdateAsync(vacation);
         }
 
-        public Task<int> Add(VacationModel vacation)
+        public Task<int> AddAsync(VacationModel vacation)
         {
-            return _vacationComponent.Add(vacation);
+            return _vacationComponent.AddAsync(vacation);
+        }
+
+        public Task DeleteAsync(VacationModel vacation)
+        {
+            return _vacationComponent.DeleteAsync(vacation);
         }
     }
 }

@@ -4,31 +4,34 @@ using UIKit;
 
 namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 {
-    public class AboutController : BaseController
+    public class AboutController : HamburgerAbstractController
     {
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
             View.BackgroundColor = UIColor.White;
 
-            const int margin = 40;
+            const int width = 150;
+            const int height = 100;
 
             Title = Localization.AboutTitleText;
 
             var aboutTextView = new UITextView
             {
-                Text = Localization.AboutContentText
+                Text = Localization.AboutContentText,
+                Editable = false,
+                TextAlignment = UITextAlignment.Center
             };
 
             View.AddSubviews(aboutTextView);
-            
             View.SubviewsDoNotTranslateAutoresizingMaskIntoConstraints();
 
             View.AddConstraints(
                aboutTextView.WithSameCenterX(View),
-               aboutTextView.AtTopOf(View).Plus(margin),
-               aboutTextView.Width().EqualTo().WidthOf(View).Minus(margin),
-               aboutTextView.Height().EqualTo().HeightOf(View));
+               aboutTextView.WithSameCenterY(View),
+               aboutTextView.Width().EqualTo(width),
+               aboutTextView.Height().EqualTo(height)
+               );
         }
     }
 }

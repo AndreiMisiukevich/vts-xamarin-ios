@@ -6,7 +6,7 @@ using UIKit;
 
 namespace Epam.Vts.Xamarin.Presentation.iOS.Controllers
 {
-    public class GalleryViewController : BaseController
+    public class GalleryViewController : HamburgerAbstractController
     {
         private const string ImageTag = "public.image";
 
